@@ -1625,7 +1625,13 @@ static int zipfileUpdate(
 
     if( rc==SQLITE_OK ){
       zPath = (const char*)sqlite3_value_text(apVal[2]);
+#ifdef MAGMA_ENABLE_FIXES
       if( zPath==0 ) zPath = "";
+#else
+#ifdef MAGMA_ENABLE_CANARIES
+      MAGMA_LOG("JCH218", zPath == 0);
+#endif
+#endif
       nPath = (int)strlen(zPath);
       mTime = zipfileGetTime(apVal[4]);
     }
