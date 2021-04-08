@@ -908,12 +908,7 @@ static ExprList *exprListAppendList(
         if( sqlite3ExprIsInteger(pSub, &iDummy) ){
           pSub->op = TK_NULL;
           pSub->flags &= ~(EP_IntValue|EP_IsTrue|EP_IsFalse);
-#ifdef MAGMA_ENABLE_FIXES
           pSub->u.zToken = 0;
-#endif
-#ifdef MAGMA_ENABLE_CANARIES
-          MAGMA_LOG("JCH234", pDup->u.zToken !=0);
-#endif
         }
       }
       pList = sqlite3ExprListAppend(pParse, pList, pDup);
