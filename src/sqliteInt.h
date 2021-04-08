@@ -2230,9 +2230,14 @@ struct Table {
 #  define ExprIsVtab(X)  \
               ((X)->op==TK_COLUMN && (X)->y.pTab!=0 && (X)->y.pTab->nModuleArg)
 #else
+#ifdef MAGMA_ENABLE_CANARIES
 #  define ExprIsVtab(X)  \
               (MAGMA_LOG_V("JCH231", MAGMA_AND((X)->op==TK_COLUMN, (X)->y.pTab == 0)), \
                 (X)->op==TK_COLUMN && (X)->y.pTab->nModuleArg)
+#else
+#  define ExprIsVtab(X)  \
+              ((X)->op==TK_COLUMN && (X)->y.pTab->nModuleArg)
+#endif
 #endif
 #else
 #  define IsVirtual(X)      0
