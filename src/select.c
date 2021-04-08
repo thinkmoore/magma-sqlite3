@@ -6321,10 +6321,17 @@ int sqlite3Select(
   */
   if( (p->selFlags & (SF_Distinct|SF_Aggregate))==SF_Distinct 
    && sqlite3ExprListCompare(sSort.pOrderBy, pEList, -1)==0
+#ifdef MAGMA_ENABLE_FIXES
 #ifndef SQLITE_OMIT_WINDOWFUNC
    && p->pWin==0
 #endif
+#endif
   ){
+#ifdef MAGMA_ENABLE_CANARIES
+#ifndef SQLITE_OMIT_WINDOWFUNC
+    MAGMA_LOG("JCH219", p->pWin != 0);
+#endif
+#endif
     p->selFlags &= ~SF_Distinct;
     pGroupBy = p->pGroupBy = sqlite3ExprListDup(db, pEList, 0);
     p->selFlags |= SF_Aggregate;
