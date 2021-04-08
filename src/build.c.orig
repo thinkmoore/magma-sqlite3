@@ -2320,15 +2320,10 @@ void sqlite3EndTable(
   ** table itself.  So mark it read-only.
   */
   if( db->init.busy ){
-#ifdef MAGMA_ENABLE_FIXES
     if( pSelect ){
       sqlite3ErrorMsg(pParse, "");
       return;
     }
-#endif
-#ifdef MAGMA_ENABLE_CANARIES
-    MAGMA_LOG("JCH220", pSelect != 0);
-#endif
     p->tnum = db->init.newTnum;
     if( p->tnum==1 ) p->tabFlags |= TF_Readonly;
   }
