@@ -96,7 +96,14 @@ Expr *sqlite3ExprAddCollateToken(
   int dequote              /* True to dequote pCollName */
 ){
   if( pCollName->n>0 ){
+#ifdef MAGMA_ENABLE_FIXES
     Expr *pNew = sqlite3ExprAlloc(pParse->db, TK_COLLATE, pCollName, dequote);
+#else
+#ifdef MAGMA_ENABLE_CANARIES
+    MAGMA_LOG("JCH232", dequote==0);
+#endif
+    Expr *pNew = sqlite3ExprAlloc(pParse->db, TK_COLLATE, pCollName, 1);
+#endif
     if( pNew ){
       pNew->pLeft = pExpr;
       pNew->flags |= EP_Collate|EP_Skip;
