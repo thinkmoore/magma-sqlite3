@@ -2867,8 +2867,12 @@ static int multiSelect(
     }
   #endif
   }
+#ifdef MAGMA_ENABLE_FIXES
   if( pParse->nErr ) goto multi_select_end;
-  
+#endif
+#ifdef MAGMA_ENABLE_CANARIES
+  MAGMA_LOG("JCH228", pParse->nErr != 0);
+#endif
   /* Compute collating sequences used by 
   ** temporary tables needed to implement the compound select.
   ** Attach the KeyInfo structure to all temporary tables.
