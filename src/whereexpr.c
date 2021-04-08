@@ -1421,8 +1421,14 @@ static void exprAnalyze(
   /* Prevent ON clause terms of a LEFT JOIN from being used to drive
   ** an index for tables to the left of the join.
   */
+#ifdef MAGMA_ENABLE_FIXES
   testcase( pTerm!=&pWC->a[idxTerm] );
   pTerm = &pWC->a[idxTerm];
+#else
+#ifdef MAGMA_ENABLE_CANARIES
+  MAGMA_LOG("JCH223", pTerm!=&pWC->a[idxTerm]);
+#endif
+#endif
   pTerm->prereqRight |= extraRight;
 }
 
