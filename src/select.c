@@ -3978,10 +3978,15 @@ static int flattenSubquery(
     if( pSubSrc->nSrc>1                   /* (3a) */
      || isAgg                             /* (3b) */
      || IsVirtual(pSubSrc->a[0].pTab)     /* (3c) */
+#ifdef MAGMA_ENABLE_FIXES
      || (p->selFlags & SF_Distinct)!=0    /* (3d) */
+#endif
     ){
       return 0;
     }
+#ifdef MAGMA_ENABLE_CANARIES
+    MAGMA_LOG("JCH216", (p->selFlags & SF_Distinct)!=0);
+#endif
   }
 #ifdef SQLITE_EXTRA_IFNULLROW
   else if( iFrom>0 && !isAgg ){
